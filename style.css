@@ -1,0 +1,173 @@
+* {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+main {
+  /* margin: 30px 100px; */
+  width: 80%;
+  /* width: 700px; */
+  margin: 10px auto;
+  padding: 10px 20px;
+  box-shadow: 0px 0px 20px 3px #6d758d;
+  border-radius: 15px;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+nav>div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+nav>div h2 {
+  margin: 0;
+  margin-right: 25px;
+  cursor: pointer;
+}
+
+nav>div h2:hover {
+  color: hsl(0deg 100% 78.07%);
+}
+
+header {
+  margin: 0px 95px;
+  width: 80%;
+  position: relative;
+}
+
+
+header nav .sec {
+  border-radius: 10px;
+}
+
+header .sec:hover {
+  box-shadow: 0px 0px 5px 2px #6d758d;
+}
+
+
+input {
+  padding: 10px;
+  width: 69%;
+  outline: none;
+  border: 0;
+  font-weight: 500;
+  font-size: 1.0rem;
+  background-color: transparent;
+}
+
+button {
+  padding: 10px;
+  outline: none;
+  border: 0;
+  cursor: pointer;
+  background-color: transparent;
+  text-decoration: none;
+  font-size: 1.0rem;
+}
+
+.list {
+  min-width: 35%;
+  background-color: rgb(68, 185, 248);
+  position: absolute;
+  left: 65%;
+  z-index: 1;
+  border-radius: 5px;
+}
+
+.list_items {
+  width: 99%;
+  height: 25px;
+  padding: 2px;
+}
+
+.list_items:hover {
+  background-color: black;
+  color: whitesmoke;
+}
+
+.items {
+  margin: 0;
+}
+
+.img-container {
+  position: relative;
+}
+
+#image {
+  width: 200px;
+  height: 220px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: ease-in-out 0.25s;
+}
+
+.img-container p {
+  display: none;
+  position: absolute;
+  bottom: 15px;
+  left: 110px;
+  font-size: 1.1rem;
+  color: white;
+  background-color: hsl(240, 39%, 47%);
+  padding: 5px 7px;
+  margin: 0;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.img-container span {
+  display: none;
+  position: absolute;
+  bottom: 15px;
+  left: 20px;
+  font-size: 1.1rem;
+  color: white;
+  background-color: hsl(240, 39%, 47%);
+  padding: 5px 7px;
+  margin: 0;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.img-container:hover span,
+.img-container:hover p {
+  display: block;
+}
+
+/* .img-container:hover p {
+  display: block;
+} */
+
+.name {
+  font-size: 1.2rem;
+}
+
+.show {
+  margin-top: 30px;
+  padding: 5px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 10px;
+}
+
+.grid-item {
+  padding: 0px;
+  text-align: left;
+  font-size: 2.5rem;
+}
+
+
+.name>p {
+  font-size: 1.2rem;
+  letter-spacing: 0.5px;
+  word-spacing: 0.5px;
+}
