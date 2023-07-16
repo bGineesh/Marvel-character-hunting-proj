@@ -9,7 +9,7 @@ body {
 
 main {
   /* margin: 30px 100px; */
-  width: 80%;
+  width: 90%;
   /* width: 700px; */
   margin: 10px auto;
   padding: 10px 20px;
@@ -28,10 +28,15 @@ nav>div {
   align-items: center;
 }
 
-nav>div h2 {
-  margin: 0;
+nav>div a {
   margin-right: 25px;
   cursor: pointer;
+  text-decoration: none;
+  color: hsl(228, 7%, 14%);
+}
+
+h2 {
+  margin: 0;
 }
 
 nav>div h2:hover {
@@ -103,14 +108,14 @@ button {
 }
 
 #image {
-  width: 200px;
-  height: 220px;
+  width: 220px;
+  height: 240px;
   border-radius: 20px;
   cursor: pointer;
   transition: ease-in-out 0.25s;
 }
 
-.img-container p {
+.img-container .add-to-favorite {
   display: none;
   position: absolute;
   bottom: 15px;
@@ -124,7 +129,7 @@ button {
   cursor: pointer;
 }
 
-.img-container span {
+.img-container .open-profile {
   display: none;
   position: absolute;
   bottom: 15px;
@@ -138,8 +143,8 @@ button {
   cursor: pointer;
 }
 
-.img-container:hover span,
-.img-container:hover p {
+.img-container:hover .open-profile,
+.img-container:hover .add-to-favorite {
   display: block;
 }
 
