@@ -70,6 +70,29 @@ button.addEventListener('click', async () => {
     alert("Nothing there!")
   }
 
+  // this the url that we are fetch the data to uss in web page
+  const url = `https://gateway.marvel.com:443/v1/public/characters?ts=${timestamp}&apikey=${apiKey}&hash=${hashValue}&name=${input.value}`;
+
+  // we are storing a data from the link after fetching it
+  const respond = await fetch(url);
+  // it is storing in json formate
+  const jData = await respond.json();
+
+  // we are going throw data into result filed and getting the name value for the article to display the name value and picture and description
+  jData.data["results"].forEach((element) => {
+    const article = document.createElement("article");
+    article.innerHTML = `<div class="img-container"><img id="image" src="${element.thumbnail["path"] + "." + element.thumbnail["extension"]}" alt ="${element.name}" class="grid-items">
+    <button class="open-profile" value="${element.name}" onClick='openChar(${element.name})'>Open</button>
+    <button class="add-to-favorite" onClick='addFav()'>favorite</button>
+    </div>
+    <div class="name grid-items">
+      ${element.name}
+    </div>`;
+    // localStorage();
+    show.prepend(article);
+  });
+
+
 })
 
 handler = async () => {
@@ -86,35 +109,13 @@ handler = async () => {
 
   jData.data["results"].forEach((element) => {
     const article = document.createElement("article");
-    if (input.value == element.name) {
-      let name = element.name;
-      let li = document.createElement("div");
-      li.style.cursor = "pointer";
-      li.classList.add('img-container');
-      // li.setAttribute('onclick', "displayWords('" + name + "')");
-      let word = "<b>" + name.substr(0, input.value.length) + "</b>";
-      word += name.substr(input.value.length);
-      li.innerHTML = `
-      <div class="img-container"><img id="image" src="${element.thumbnail["path"] + "." + element.thumbnail["extension"]}" alt ="${element.name}" class="grid-items">
-      <button class="open-profile" value="${element.name}" onClick='openChar(${element.name})'>Open</button>
-      <button class="add-to-favorite" onClick='addFav()'>favorite</button>
-      </div>
-      <div class="name grid-items">
+    article.innerHTML = `<div class="img-container"><img id="image" src="${element.thumbnail["path"] + "." + element.thumbnail["extension"]}" alt ="${element.name}" class="grid-items">
+    <button class="open-profile" value="${element.name}" onClick='openChar(${element.name})'>Open</button>
+    <button class="add-to-favorite" onClick='addFav()'>favorite</button>
+    </div>
+    <div class="name grid-items">
       ${element.name}
-      </div>
-      `;
-      list.appendChild(li);
-    }
-    else {
-      article.innerHTML = `<div class="img-container"><img id="image" src="${element.thumbnail["path"] + "." + element.thumbnail["extension"]}" alt ="${element.name}" class="grid-items">
-      <button class="open-profile" value="${element.name}" onClick='openChar(${element.name})'>Open</button>
-      <button class="add-to-favorite" onClick='addFav()'>favorite</button>
-      </div>
-      <div class="name grid-items">
-      ${element.name}
-      </div>`;
-    }
-
+    </div>`;
     // localStorage();
     show.appendChild(article);
   });
