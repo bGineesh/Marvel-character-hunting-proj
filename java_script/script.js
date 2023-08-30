@@ -15,7 +15,7 @@ const [timestamp, apiKey, hashValue] = [ts, publicKey, hashKey];
 
 const pages = {
   home: ``,
-  fav: `<p style="text-align:center; font-size:1.1rem;">Your favorite is empty</p>`,
+  fav: `<p style="text-align:center; font-size:1.1rem;">Your favorite list is empty</p>`,
 };
 
 let appData = [];
@@ -154,7 +154,7 @@ window.onload = async () => {
     <p class="stories">
     Stories: <span>${element.stories["available"]}
     </p>
-    <div class="details">A
+    <div class="details">
     <a href="${element.urls[2] ? element.urls[2].url : "..."}" target="_blank"> <p class="comic">Comics:<span>${element.comics["available"]}</span></p></a>
     <a href="${element.urls[0].url}" target="_blank"><p class="more-details">More details</p></a>
   </div>
@@ -168,6 +168,40 @@ window.onload = async () => {
     show.innerHTML = pages["home"];
   };
 
+  // fav data creation
+
+  function updateFavoriteContent() {
+    favList = JSON.parse(window.localStorage.getItem("favData")) || [];
+    let favoriteData = "";
+
+    if (favList.length > 0) {
+      favList.forEach((element) => {
+        favoriteData += `<article>
+    <div class="img-container">
+    <a href="${element.urls[0].url}" target="_blank"><img class="image" src="${element.thumbnail["path"] + "." + element.thumbnail["extension"]}" alt ="${element.name}" class="grid-items">
+    </a>
+    <h3  class="grid-items" id="name">${element.name}</h3>
+    <p class="series">Series: <span>${element.series["available"]}</p>
+    <p class="stories">Stories: <span>${element.stories["available"]}</p>
+    <div class="details">
+    <a href="${element.urls[2] ? element.urls[2].url : "..."}" target="_blank"> 
+    <p class="comic">Comics:<span>${element.comics["available"]}</span></p>
+    </a>
+    <a href="${element.urls[0].url}" target="_blank"><p class="more-details">More details</p>
+    </a>
+    </div>
+    <button class="unFav">Del fav<i class="fa fa-trash" aria-hidden="true"></i></button>
+    </div>
+    </article>`;
+      });
+      pages["fav"] = favoriteData;
+    }
+    else {
+      favoriteData = `<p style="text-align:center; font-size:1.1rem;">Your favorite list is empty</p>`;
+    }
+    return favoriteData;
+  }
+
   show.addEventListener("click", function (e) {
     if (e.target.classList.contains("fav")) {
       const parent = e.target.parentNode.querySelector(".name");
@@ -176,71 +210,39 @@ window.onload = async () => {
         alert("No character to add to favorites!");
         return;
       }
+      const characterToAdd = appData.find((element) => element.name === characterName);
 
-      if (favoriteListNames.includes(characterName)) {
-        alert("Character already in favorites!");
-        return;
+      if (characterToAdd && !favList.some((favChar) => favChar.name === characterName)) {
+          favList.push(characterToAdd);
+          window.localStorage.setItem("favData", JSON.stringify(favList));
+          pages["fav"] = updateFavoriteContent();
+          handler();
+          alert(`${characterName} added to favorites!`);
       }
-      alert("Character added to favorites!");
-      favoriteListNames.push(characterName);
+      else if (favList.some((favChar) => favChar.name === characterName)) {
+        alert("Character is already in favorites!");
+      }
+    }
+    
+    else if (e.target.classList.contains("unFav")) {
+      const parent = e.target.parentNode.querySelector("#name");
+      const characterName = parent.innerText;
 
-      alert(`${characterName} added to favorites!`);
-      appData.forEach((element) => {
-        if (element.name == characterName) {
-          favList.push(element);
+      favList = JSON.parse(window.localStorage.getItem("favData"));
+      favList.forEach((element) => {
+        const index = favList.findIndex(item => item.name === characterName);
+        if (index !== -1) {
+          favList.splice(index, 1);
         }
       });
       window.localStorage.setItem("favData", JSON.stringify(favList));
-      console.log("Favorite list ", favList);
+      // console.log("Favorite list ", favData);
       pages["fav"] = updateFavoriteContent();
       handler();
-    }
-    else if (e.target.classList.contains("unFav")) {
-      console.log(e.target);
-      const parent = e.target.parentNode.querySelector("#name");
-      console.log(parent);
-      const characterName = parent.innerText;
-      console.log(characterName);
-      let favData = JSON.parse(window.localStorage.getItem("favData"));
-      favData.forEach((element) => {
-        const index = favData.findIndex(item => item.name === characterName);
-        if (index !== -1) {
-          favData.splice(index, 1);
-        }
-      });
-      window.localStorage.setItem("favData", JSON.stringify(favData));
-      console.log("Favorite list ", favData);
-      pages["fav"] = updateFavoriteContent();
-      handler();
+      
     }
 
   });
-
-  // fav data creation
-  function updateFavoriteContent() {
-    let favoriteData = "";
-    let favData = JSON.parse(window.localStorage.getItem("favData"));
-
-    if (favData !== null) {
-      favData.forEach((element) => {
-        favoriteData += `<article>
-    <div class="img-container"><a href="${element.urls[0].url}" target="_blank"><img class="image" src="${element.thumbnail["path"] + "." + element.thumbnail["extension"]}" alt ="${element.name}" class="grid-items"></a>
-    <h3  class="grid-items" id="name">${element.name}</h3>
-    <p class="series">Series: <span>${element.series["available"]}</p>
-    <p class="stories">Stories: <span>${element.stories["available"]}</p>
-    <div class="details">
-    <a href="${element.urls[2] ? element.urls[2].url : "..."}" target="_blank"> <p class="comic">Comics:<span>${element.comics["available"]}</span></p></a>
-    <a href="${element.urls[0].url}" target="_blank"><p class="more-details">More details</p></a>
-    </div>
-    <button class="unFav">Del fav<i class="fa fa-trash" aria-hidden="true"></i></button>
-    </div>
-    </article>`;
-      });
-      pages["fav"] = favoriteData;
-    }
-    return favoriteData;
-  }
-
   handler();
 };
 
