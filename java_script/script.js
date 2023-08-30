@@ -1,9 +1,8 @@
 // Taking an tag attributes values for initializing the the methods
 const input = document.querySelector('.input');
 const button = document.querySelector('.button')
-var show = document.querySelector('.show');
-const list = document.querySelector('.list')
-// const openChar = document.querySelector('.open-profile');
+const show = document.querySelector('.show');
+const list = document.querySelector('.list');
 
 
 // these are the md5 value to fetch the data from the url
@@ -20,8 +19,10 @@ const pages = {
 };
 
 let appData = [];
-let favoriteList = [];
+let favoriteListNames = [];
+let favList = [];
 var homeData = "";
+var searchData = "";
 let favoriteData = "";
 
 // this is for the value getting from the value that put on the input filed 
@@ -78,36 +79,38 @@ window.onload = async () => {
   const respond = await fetch(url);
   const jData = await respond.json();
   const data = jData.data.results;
+  appData = [];
   appData = [...data];
   console.log(appData)
   window.localStorage.setItem("Data", JSON.stringify(appData));
+
   let hmData = JSON.parse(window.localStorage.getItem("Data"));
-  console.log(hmData);
+  console.log("html data: ", hmData);
   hmData.forEach((element) => {
     // Home data created
     homeData += `<article>
-    <div class="img-container">
-      <a href="${element.urls[0].url}" target="_blank">
-      <img id="image" src="${element.thumbnail["path"] + "." + element.thumbnail["extension"]}" alt ="${element.name}" class="grid-items">
-      </a>
-      <h3  class="name grid-items">
-        ${element.name}
-      </h3>
-      <p class="series">
-      Series: <span>${element.series["available"]}
-      </p>
-      <p class="stories">
-      Stories: <span>${element.stories["available"]}
-      </p>
-      <div class="details">
-      <a href="${element.urls[2] ? element.urls[2].url : "..."}" target="_blank"> <p class="comic">Comics:<span>${element.comics["available"]}</span></p></a>
-      <a href="${element.urls[0].url}" target="_blank"><p class="more-details">More details</p></a>
-    </div>
-      <button class="fav">add to fav
-      <i class="fa fa-plus" aria-hidden="true"></i>
-      </button>
-    </div>
-    </article>`;
+<div class="img-container">
+  <a href="${element.urls[0].url}" target="_blank">
+  <img class="image" src="${element.thumbnail["path"] + "." + element.thumbnail["extension"]}" alt ="${element.name}" class="grid-items">
+  </a>
+  <h3  class="name grid-items">
+    ${element.name}
+  </h3>
+  <p class="series">
+  Series: <span>${element.series["available"]}
+  </p>
+  <p class="stories">
+  Stories: <span>${element.stories["available"]}
+  </p>
+  <div class="details">
+  <a href="${element.urls[2] ? element.urls[2].url : "..."}" target="_blank"> <p class="comic">Comics:<span>${element.comics["available"]}</span></p></a>
+  <a href="${element.urls[0].url}" target="_blank"><p class="more-details">More details</p></a>
+</div>
+  <button class="fav">add to fav
+  <i class="fa fa-plus" aria-hidden="true"></i>
+  </button>
+</div>
+</article>`;
   });
 
   pages["home"] = homeData;
@@ -130,85 +133,112 @@ window.onload = async () => {
       alert("No character found with the given name!");
       return;
     }
-
+    appData = [];
     appData.push(dataValue[0]);
+    console.log(appData);
     window.localStorage.setItem("Data", JSON.stringify(appData));
+    let srData = JSON.parse(window.localStorage.getItem("Data"));
+    srData.forEach((element) => {
+      // Home data created
+      searchData = `<article>
+  <div class="img-container">
+    <a href="${element.urls[0].url}" target="_blank">
+    <img class="image" src="${element.thumbnail["path"] + "." + element.thumbnail["extension"]}" alt ="${element.name}" class="grid-items">
+    </a>
+    <h3  class="name grid-items">
+      ${element.name}
+    </h3>
+    <p class="series">
+    Series: <span>${element.series["available"]}
+    </p>
+    <p class="stories">
+    Stories: <span>${element.stories["available"]}
+    </p>
+    <div class="details">A
+    <a href="${element.urls[2] ? element.urls[2].url : "..."}" target="_blank"> <p class="comic">Comics:<span>${element.comics["available"]}</span></p></a>
+    <a href="${element.urls[0].url}" target="_blank"><p class="more-details">More details</p></a>
+  </div>
+    <button class="fav">add to fav
+    <i class="fa fa-plus" aria-hidden="true"></i>
+    </button>
+  </div>
+  </article>`;
+    });
+    pages["home"] = searchData;
+    show.innerHTML = pages["home"];
   };
 
-  // favButton.onclick = async () => {
-  //   const characterName = show.querySelector(".name")?.innerText;
-  //   if (!characterName) {
-  //     alert("No character to add to favorites!");
-  //     return;
-  //   }
-
-  //   if (favoriteList.includes(characterName)) {
-  //     alert("Character already in favorites!");
-  //     return;
-  //   }
-
-  //   favoriteList.push(characterName);
-  //   window.localStorage.setItem("favData", JSON.stringify(favoriteList));
-
-  //   alert(`${characterName} added to favorites!`);
-
-  //   // favoriteData = "";
-  //   // if (favoriteData === 0) {
-  //   //   appData.forEach((element) => {
-  //   //     console.log(element.id);
-  //   //     favoriteList.push(element.name);
-  //   //   });
-  //   // }
-  //   // window.localStorage.setItem("favData", JSON.stringify(favoriteList));
-  // };
-
-  const favButton = document.querySelectorAll(".fav");
-  favButton.forEach((button) => {
-    button.addEventListener("click", async () => {
-      const characterName = button.closest(".img-container").querySelector("#name").innerText;
+  show.addEventListener("click", function (e) {
+    if (e.target.classList.contains("fav")) {
+      const parent = e.target.parentNode.querySelector(".name");
+      const characterName = parent.innerText;
       if (!characterName) {
         alert("No character to add to favorites!");
         return;
       }
 
-      if (favoriteList.includes(characterName)) {
+      if (favoriteListNames.includes(characterName)) {
         alert("Character already in favorites!");
         return;
       }
-
-      favoriteList.push(characterName);
-      window.localStorage.setItem("favData", JSON.stringify(favoriteList));
+      alert("Character added to favorites!");
+      favoriteListNames.push(characterName);
 
       alert(`${characterName} added to favorites!`);
-    });
+      appData.forEach((element) => {
+        if (element.name == characterName) {
+          favList.push(element);
+        }
+      });
+      window.localStorage.setItem("favData", JSON.stringify(favList));
+      console.log("Favorite list ", favList);
+      pages["fav"] = updateFavoriteContent();
+      handler();
+    }
+    else if (e.target.classList.contains("unFav")) {
+      console.log(e.target);
+      const parent = e.target.parentNode.querySelector("#name");
+      console.log(parent);
+      const characterName = parent.innerText;
+      console.log(characterName);
+      let favData = JSON.parse(window.localStorage.getItem("favData"));
+      favData.forEach((element) => {
+        const index = favData.findIndex(item => item.name === characterName);
+        if (index !== -1) {
+          favData.splice(index, 1);
+        }
+      });
+      window.localStorage.setItem("favData", JSON.stringify(favData));
+      console.log("Favorite list ", favData);
+      pages["fav"] = updateFavoriteContent();
+      handler();
+    }
+
   });
 
   // fav data creation
-  let favData = JSON.parse(window.localStorage.getItem("favData"));
-  if (favData !== null) {
-    favoriteList = favData;
-    data.forEach((element) => {
-      for (let item of favoriteList) {
-        console.log(item);
-        if (element.name === item) {
-          favoriteData += `<article>
-      <div class="img-container"><a href="${element.urls[0].url}" target="_blank"><img class="image" src="${element.thumbnail["path"] + "." + element.thumbnail["extension"]}" alt ="${element.name}" class="grid-items"></a>
-    <h3  class="grid-items" id="name">
-      ${element.name}
-    </h3>
+  function updateFavoriteContent() {
+    let favoriteData = "";
+    let favData = JSON.parse(window.localStorage.getItem("favData"));
+
+    if (favData !== null) {
+      favData.forEach((element) => {
+        favoriteData += `<article>
+    <div class="img-container"><a href="${element.urls[0].url}" target="_blank"><img class="image" src="${element.thumbnail["path"] + "." + element.thumbnail["extension"]}" alt ="${element.name}" class="grid-items"></a>
+    <h3  class="grid-items" id="name">${element.name}</h3>
     <p class="series">Series: <span>${element.series["available"]}</p>
     <p class="stories">Stories: <span>${element.stories["available"]}</p>
     <div class="details">
-      <a href="${element.urls[2] ? element.urls[2].url : "..."}" target="_blank"> <p class="comic">Comics:<span>${element.comics["available"]}</span></p></a>
-      <a href="${element.urls[0].url}" target="_blank"><p class="more-details">More details</p></a>
+    <a href="${element.urls[2] ? element.urls[2].url : "..."}" target="_blank"> <p class="comic">Comics:<span>${element.comics["available"]}</span></p></a>
+    <a href="${element.urls[0].url}" target="_blank"><p class="more-details">More details</p></a>
     </div>
     <button class="unFav">Del fav<i class="fa fa-trash" aria-hidden="true"></i></button>
     </div>
     </article>`;
-        }
-      }
-    });
-    pages["fav"] = favoriteData;
+      });
+      pages["fav"] = favoriteData;
+    }
+    return favoriteData;
   }
 
   handler();
@@ -221,20 +251,8 @@ handler();
 
 function handler() {
   var sliceVal = location.hash.slice(1);
-  if (sliceVal === "fav") {
+  if (sliceVal === "home") {
     show.innerHTML = pages[sliceVal];
-    const unFavButtons = document.querySelectorAll(".unFav");
-    unFavButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        const characterName = button.closest(".img-container").querySelector("#name").innerText;
-        const index = favoriteList.indexOf(characterName);
-        if (index !== -1) {
-          favoriteList.splice(index, 1);
-          window.localStorage.setItem("favData", JSON.stringify(favoriteList));
-          window.location.reload();
-        };
-      })
-    })
   }
   else {
     show.innerHTML = pages[sliceVal]

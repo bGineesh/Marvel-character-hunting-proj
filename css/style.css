@@ -117,7 +117,7 @@ button {
   text-align: left;
 }
 
-#image {
+.image {
   width: 250px;
   height: 290px;
   border-radius: 20px 20px 0px 0px;
