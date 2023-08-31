@@ -9,9 +9,8 @@ Live Link - https://bgineesh.github.io/Marvel-character-hunting-proj/ (project l
 
 # Project Images
 
-![Stormtroopocat]([https://octodex.github.com/images/stormtroopocat.jpg](https://github.com/bGineesh/Marvel-character-hunting-proj/blob/21e8dbaf5284f0ce6bce7e6e9f1baf6e2c84f623/images/Screenshot%202023-08-31%20122345.png
-) "The Home Page")
+![Marvel API](https://github.com/bGineesh/Marvel-character-hunting-proj/blob/21e8dbaf5284f0ce6bce7e6e9f1baf6e2c84f623/images/Screenshot%202023-08-31%20122345.png "The Home Page")
 
-![Stormtroopocat]([https://octodex.github.com/images/stormtroopocat.jpg](https://github.com/bGineesh/Marvel-character-hunting-proj/blob/21e8dbaf5284f0ce6bce7e6e9f1baf6e2c84f623/images/Screenshot%202023-08-31%20122345.png) "The Fav page")
+![Marvel API](https://github.com/bGineesh/Marvel-character-hunting-proj/blob/21e8dbaf5284f0ce6bce7e6e9f1baf6e2c84f623/images/Screenshot%202023-08-31%20122345.png "The Fav page")
 
 
