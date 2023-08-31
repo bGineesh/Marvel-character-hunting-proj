@@ -13,4 +13,11 @@ Live Link - https://bgineesh.github.io/Marvel-character-hunting-proj/ (project l
 
 ![Marvel API](https://github.com/bGineesh/Marvel-character-hunting-proj/blob/21e8dbaf5284f0ce6bce7e6e9f1baf6e2c84f623/images/Screenshot%202023-08-31%20122345.png "The Fav page")
 
+## Project Video
+
+https://github.com/bGineesh/Marvel-character-hunting-proj/assets/94602631/56bed8d0-fe6e-4371-b7c8-5bd5a6227453
+
+## Thank You
+
+
 
