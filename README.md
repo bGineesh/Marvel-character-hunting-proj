@@ -9,3 +9,6 @@ Live Link - https://bgineesh.github.io/Marvel-character-hunting-proj/ (project l
 
 # Project Images
 
+![Stormtroopocat](https://octodex.github.com/images/stormtroopocat.jpg "The Home Page")
+
+![Stormtroopocat](https://octodex.github.com/images/stormtroopocat.jpg "The Fav page")
